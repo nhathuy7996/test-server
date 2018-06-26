@@ -1,12 +1,8 @@
 {
-  "name": "rtcchat",
+  "name": "server",
   "version": "1.0.0",
   "description": "chat video app",
   "main": "server.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/nhathuy7996/chatvideo.git"
-  },
   "scripts": {
     "start": "node server"
   },
