@@ -2,8 +2,12 @@
   "name": "rtcchat",
   "version": "1.0.0",
   "description": "chat video app",
-  "main": "main.js",
-  "start": "main.js",
+  "main": "server.js",
+  "start": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nhathuy7996/chatvideo.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
