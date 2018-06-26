@@ -8,7 +8,7 @@
     "url": "git+https://github.com/nhathuy7996/chatvideo/"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index"
   },
   "author": "huy",
   "license": "ISC",
