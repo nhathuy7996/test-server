@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "chat video app",
   "main": "index.js",
-  "start": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nhathuy7996/chatvideo/"
