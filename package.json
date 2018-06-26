@@ -8,7 +8,7 @@
     "url": "git+https://github.com/nhathuy7996/chatvideo/"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "index.js"
   },
   "author": "huy",
   "license": "ISC",
