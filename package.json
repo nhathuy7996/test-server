@@ -1,5 +1,5 @@
 {
-  "name": "server",
+  "name": "chatvideo",
   "version": "1.0.0",
   "description": "chat video app",
   "main": "server.js",
