@@ -6,6 +6,8 @@ var wss = new WebSocketServer({port: 9090});
 
 //all connected to the server users 
 var users = {};
+
+console.log("Start server!");
   
 //when a user connects to our sever 
 wss.on('connection', function(connection) {
