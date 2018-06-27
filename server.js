@@ -3,22 +3,16 @@ var WebSocketServer = require('ws');
 var https = require('https');
 const fs = require('fs');
 
-const options = {
-  key: fs.readFileSync('agent2-key.pem'),
-  cert: fs.readFileSync('agent2-cert.pem')
-};
-
-
-const server = https.createServer(options, (req, res) => {
-  res.writeHead(200);
-  res.end('hello world\n');
+const server = new https.createServer({
+  cert: fs.readFileSync('agent2-cert.pem'),
+  key: fs.readFileSync('agent2-key.pem')
 });
 
 //creating a websocket server at port 80
-var PORT = process.env.PORT || 80;
-server.listen(PORT);
-
+var PORT = process.env.PORT || 8080;
 var wss = new WebSocketServer.Server({server}); 
+
+server.listen(PORT);
 
 
 
