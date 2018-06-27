@@ -26,7 +26,7 @@ server.listen(function listening () {
   // is set to `false`.
   //
   var PORT = process.env.PORT || 80;
-  const ws = new WebSocket(`wss://localhost:${PORT}`, {
+  const ws = new WebSocket({PORT}, {
     rejectUnauthorized: false
   });
 
