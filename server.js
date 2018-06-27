@@ -1,11 +1,17 @@
 //require our websocket library 
 var WebSocketServer = require('ws'); 
 var https = require('https');
+const fs = require('fs');
 
-const server = https.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.write('Hello World!');
-  res.end();
+const options = {
+  key: fs.readFileSync('agent2-key.pem'),
+  cert: fs.readFileSync('agent2-cert.pem')
+};
+
+
+const server = https.createServer(options, (req, res) => {
+  res.writeHead(200);
+  res.end('hello world\n');
 });
 
 //creating a websocket server at port 80
