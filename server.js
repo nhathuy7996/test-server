@@ -7,6 +7,7 @@ var wss = new WebSocketServer({port: PORT});
 
 //all connected to the server users 
 var users = {};
+var usersName = [];
 
 console.log("start server!");
   
@@ -44,11 +45,15 @@ wss.on('connection', function(connection) {
                //save user connection on the server 
                users[data.name] = connection; 
                connection.name = data.name; 
-					
-               sendTo(connection, { 
-                  type: "login", 
-                  success: true 
-               }); 
+		usersName.push(data.name);
+          
+               for(var user in users){
+                  sendTo(users[user], { 
+                    type: "login", 
+                    success: true,
+                    users: usersName.toString()
+                })
+               }
             } 
 				
             break;
