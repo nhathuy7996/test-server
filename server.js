@@ -1,5 +1,5 @@
 //require our websocket library 
-var WebSocketServer = require('wss').Server; 
+var WebSocketServer = require('ws').Server; 
 var https = require('https');
 
 https.createServer(function (req, res) {
