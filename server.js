@@ -2,15 +2,17 @@
 var WebSocketServer = require('ws').Server; 
 var https = require('https');
 
-https.createServer(function (req, res) {
+const server = https.createServer(function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.write('Hello World!');
   res.end();
-}).listen(80);
+});
 
 //creating a websocket server at port 80
 var PORT = process.env.PORT || 80;
-var wss = new WebSocketServer({port: PORT}); 
+var wss = new WebSocketServer({server}); 
+
+server.listen(PORT);
 
 //all connected to the server users 
 var users = {};
