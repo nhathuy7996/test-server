@@ -9,7 +9,7 @@ const server = https.createServer(function (req, res) {
 });
 
 //creating a websocket server at port 80
-var PORT = process.env.PORT || 80;
+var PORT = 80;
 server.listen(PORT);
 
 var wss = new WebSocketServer.Server({server}); 
