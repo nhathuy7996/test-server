@@ -1,5 +1,5 @@
 //require our websocket library 
-var WebSocketServer = require('ws').Server; 
+var WebSocketServer = require('wss').Server; 
 
 //creating a websocket server at port 80
 var PORT = process.env.PORT || 80;
