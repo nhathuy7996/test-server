@@ -1,172 +1,19 @@
-//require our websocket library 
-var WebSocketServer = require('ws'); 
-var https = require('https');
 const fs = require('fs');
+const https = require('https');
+const WebSocket = require('ws');
 
 const server = new https.createServer({
-  cert: fs.readFileSync('agent2-cert.pem'),
-  key: fs.readFileSync('agent2-key.pem')
+  cert: fs.readFileSync('/path/to/cert.pem'),
+  key: fs.readFileSync('/path/to/key.pem')
+});
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    console.log('received: %s', message);
+  });
+
+  ws.send('something');
 });
 
-//creating a websocket server at port 80
-var PORT = process.env.PORT || 80;
-var wss = new WebSocketServer.Server({server}); 
-
-server.listen(PORT);
-
-
-
-//all connected to the server users 
-var users = {};
-var usersName = [];
-
-console.log("start server!");
-  
-//when a user connects to our sever 
-wss.on('connection', function(connection) {
-  
-   console.log("User connected");
-	
-   //when server gets a message from a connected user 
-   connection.on('message', function(message) { 
-	
-      var data; 
-		
-      //accepting only JSON messages 
-      try { 
-         data = JSON.parse(message); 
-      } catch (e) { 
-         console.log("Invalid JSON"); 
-         data = {}; 
-      }
-		
-      //switching type of the user message 
-      switch (data.type) { 
-         //when a user tries to login
-         case "login": 
-            console.log("User logged", data.name); 
-				
-            //if anyone is logged in with this username then refuse 
-            if(users[data.name]) { 
-               sendTo(connection, { 
-                  type: "login", 
-                  success: false 
-               }); 
-            } else { 
-               //save user connection on the server 
-               users[data.name] = connection; 
-               connection.name = data.name; 
-		usersName.push(data.name);
-          
-               for(var user in users){
-                  sendTo(users[user], { 
-                    type: "login", 
-                    success: true,
-                    users: usersName.toString()
-                })
-               }
-            } 
-				
-            break;
-				
-         case "offer": 
-            //for ex. UserA wants to call UserB 
-            console.log("Sending offer to: ", data.name);
-				
-            //if UserB exists then send him offer details 
-            var conn = users[data.name]; 
-				
-            if(conn != null) { 
-               //setting that UserA connected with UserB 
-               connection.otherName = data.name; 
-					
-               sendTo(conn, { 
-                  type: "offer", 
-                  offer: data.offer, 
-                  name: connection.name 
-               }); 
-            }
-				
-            break;
-				
-         case "answer": 
-            console.log("Sending answer to: ", data.name); 
-            //for ex. UserB answers UserA 
-            var conn = users[data.name]; 
-				
-            if(conn != null) { 
-               connection.otherName = data.name; 
-               sendTo(conn, { 
-                  type: "answer", 
-                  answer: data.answer 
-               }); 
-            } 
-				
-            break; 
-				
-         case "candidate": 
-            console.log("Sending candidate to:",data.name); 
-            var conn = users[data.name];
-				
-            if(conn != null) { 
-               sendTo(conn, { 
-                  type: "candidate", 
-                  candidate: data.candidate 
-               }); 
-            } 
-				
-            break;
-				
-         case "leave": 
-            console.log("Disconnecting from", data.name); 
-            var conn = users[data.name]; 
-            conn.otherName = null; 
-				
-            //notify the other user so he can disconnect his peer connection 
-            if(conn != null) {
-               sendTo(conn, { 
-                  type: "leave" 
-              }); 
-            }
-				
-            break;
-				
-         default: 
-            sendTo(connection, { 
-               type: "error", 
-               message: "Command not found: " + data.type 
-            }); 
-				
-            break; 
-      }
-		
-   }); 
-	
-   //when user exits, for example closes a browser window 
-   //this may help if we are still in "offer","answer" or "candidate" state 
-   connection.on("close", function() { 
-	
-      if(connection.name) { 
-         delete users[connection.name]; 
-			
-         if(connection.otherName) { 
-            console.log("Disconnecting from ", connection.otherName); 
-            var conn = users[connection.otherName]; 
-            conn.otherName = null;
-				
-            if(conn != null) { 
-               sendTo(conn, { 
-                  type: "leave" 
-               }); 
-            }
-         } 
-      }
-		
-   });  
-	
-   connection.send("Hello world");  
-});
-  
-function sendTo(connection, message) { 
-   connection.send(JSON.stringify(message)); 
-}
+server.listen(8080);
