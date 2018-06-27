@@ -31,5 +31,6 @@ server.listen(function listening () {
 
   ws.on('open', function open () {
     ws.send('All glory to WebSockets!');
+    ws.send(server.address().port);
   });
 });
