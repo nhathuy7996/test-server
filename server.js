@@ -12,7 +12,7 @@ const server = https.createServer(function (req, res) {
 var PORT = process.env.PORT || 80;
 server.listen(PORT);
 
-var wss = new WebSocketServer({server}); 
+var wss = new WebSocketServer.Server({server}); 
 
 
 
