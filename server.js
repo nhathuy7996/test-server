@@ -9,10 +9,12 @@ const server = https.createServer(function (req, res) {
 });
 
 //creating a websocket server at port 80
-var PORT = process.env.PORT || 80;
+var PORT = process.env.PORT || 8080;
+server.listen(PORT);
+
 var wss = new WebSocketServer({server}); 
 
-server.listen(PORT);
+
 
 //all connected to the server users 
 var users = {};
