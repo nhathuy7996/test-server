@@ -1,5 +1,12 @@
 //require our websocket library 
 var WebSocketServer = require('wss').Server; 
+var https = require('https');
+
+https.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.write('Hello World!');
+  res.end();
+}).listen(80);
 
 //creating a websocket server at port 80
 var PORT = process.env.PORT || 80;
