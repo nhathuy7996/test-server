@@ -4,9 +4,7 @@ function playVideo(stream, idVideo) {
     video.onloadedmetadata = function () {
         video.play();
     };
-    if(idVideo==='localStream'){
-        stream.removeTrack(stream.getAudioTracks()[0]); 
-    }
+    
 }
 
 module.exports = playVideo;
