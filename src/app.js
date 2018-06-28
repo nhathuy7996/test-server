@@ -4,32 +4,29 @@ const openStream = require('./openStream');
 const $ = require('jquery');
 
 openStream(function(stream){
-    playVideo(stream, 'localStream')
+    
     const p = new Peer({ initiator: location.hash === '#1', trickle: false, stream });
 
+    var tracks = stream.getTracks();
+    stream.removeTrack(tracks[0]);     
+    playVideo(stream, 'localStream');
+
     p.on('signal', token => {
-        $('#txtMySignal').val(JSON.stringify(token))
+        $('#txtMySignal').val(JSON.stringify(token));
     });
 
-   const friendSignal;
+   
     $('#btnConnect').click(() => {
-        console.log('Connecting!');
-        friendSignal = JSON.parse($('#txtFriendSignal').val());
+        $('#noti').replaceWith('Connecting!');
+        const friendSignal = JSON.parse($('#txtFriendSignal').val());
         p.signal(friendSignal);
     });
 
-    p.oniceconnectionstatechange = function(event) {
-        if (pc.iceConnectionState === "failed" ) {
-            console.log('Connect fail, reconnect!!');
-            friendSignal = JSON.parse($('#txtFriendSignal').val());
-            p.signal(friendSignal);
-        }
-          // Handle the failure
-      };
+
 
      p.on('stream', friendStream => {
+        friendStream.addTrack(tracks[0]); 
+        $('#noti').replaceWith('Connected! Start streaming');
         playVideo(friendStream, 'friendStream');
-        const audio = document.getElementById('audio');
-        audio.srcObject = stream;
     });
 });
