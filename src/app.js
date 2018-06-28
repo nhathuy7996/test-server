@@ -27,5 +27,9 @@ openStream(function(stream){
           // Handle the failure
       };
 
-    p.on('stream', friendStream => playVideo(friendStream, 'friendStream'));
+     p.on('stream', friendStream => {
+        playVideo(friendStream, 'friendStream');
+        const audio = document.getElementById('audio');
+        audio.srcObject = stream;
+    });
 });
