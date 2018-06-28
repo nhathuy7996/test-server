@@ -11,11 +11,21 @@ openStream(function(stream){
         $('#txtMySignal').val(JSON.stringify(token))
     });
 
+   const friendSignal;
     $('#btnConnect').click(() => {
-        const friendSignal = JSON.parse($('#txtFriendSignal').val());
+        console.log('Connecting!');
+        friendSignal = JSON.parse($('#txtFriendSignal').val());
         p.signal(friendSignal);
-        console.log('connecting');
     });
+
+    p.oniceconnectionstatechange = function(event) {
+        if (pc.iceConnectionState === "failed" ) {
+            console.log('Connect fail, reconnect!!');
+            friendSignal = JSON.parse($('#txtFriendSignal').val());
+            p.signal(friendSignal);
+        }
+          // Handle the failure
+      };
 
     p.on('stream', friendStream => playVideo(friendStream, 'friendStream'));
 });
