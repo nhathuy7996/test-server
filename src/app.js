@@ -14,6 +14,7 @@ openStream(function(stream){
     $('#btnConnect').click(() => {
         const friendSignal = JSON.parse($('#txtFriendSignal').val());
         p.signal(friendSignal);
+        console.log('connecting');
     });
 
     p.on('stream', friendStream => playVideo(friendStream, 'friendStream'));
